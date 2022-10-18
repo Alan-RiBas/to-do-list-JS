@@ -16,7 +16,7 @@
   <main class="container-fluid ">
     <div  class=" d-flex flex-column align-items-center justify-content-center ">
       <!-- Template do App --> 
-      <form method="" id="todo-form" class=" shadow conteudo p-5 bg-light col-6">
+      <div class=" shadow rounded p-5 bg-light col-md-6">
         <!-- Titulo -->
         <div class="p-2 text-center">
           <h2>TAREFAS</h2>
@@ -26,35 +26,45 @@
 
         <!-- Campo de Adicionar Tarefa -->
         <div class="p-2">
-          <label for="adicionarTarefa"><strong>Adicione sua tarefa</strong></label>
-          <div class="d-flex justify-content-between">
-            <input id="todo-input" class="form-control w-75 p-2" type="text" placeholder="O que você vai fazer?">
-            <button id="btn-add" class="btn btn-outline-primary " type="submit">Adicionar</button>
+          <label   for="adicionarTarefa"><strong>Adicione sua tarefa</strong></label>
+          <div class="d-flex flex-row justify-content-between">
+            <input id="input-tarefa" class="form-control w-75 p-2" type="text" placeholder="O que você vai fazer?">
+            <button id="add_tarefa" id="btn-add" class="btn btn-outline-primary " type="submit">Adicionar</button>
           </div>
           <hr class="w-100">
         </div>
         <!-- Fim Campo de Adicionar Tarefa -->
 
         <!-- Campo de Pesquisar Tarefa -->
-        <div class="p-2">
+        <!-- <div class="p-2">
           <label for="pesquisar"><strong>Pesquisar</strong></label>
           <div class="d-flex justify-content-between">
             <input class="form-control w-75 p-2" type="text" placeholder="Buscar...">
             <button class="btn btn-outline-primary " type="button">Pesquisar</button>
           </div>
           <hr class="w-100">
-        </div>
+        </div> -->
         <!-- Fim Campo de Pesquisar Tarefa -->
 
         <!-- Campo de Lista de Tarefas -->
         <div class="p-2 w-100" >
-          <div class="d-flex flex-column justify-content-around" id="todo-list">
-           <!--tarefas acrescentadas por JS-->
+          <div class="d-flex flex-column justify-content-around" id="lista-tarefas">
+            <!-- <div class="d-flex justify-content-between mb-2 task">
+              <div class="border w-100 p-1 d-flex justify-content-between">
+                <p>Tarefa aqui</p>
+                <div>
+                  <button class="btn btn-outline-primary"><i class="fas fa-regular fa-check"></i></button>
+                  <button class="btn btn-outline-primary"><i class="fas fa-regular fa-pen"></i></button>
+                  <button class="btn btn-outline-primary"><i class="fas fa-light fa-trash"></i></button>
+                </div>
+              </div>
+            </div> -->
+            <!--tarefas acrescentadas por JS-->
           </div>
         </div>
          <!--Fim Campo de Lista de Tarefas -->
       
-      </form>
+      </div>
       <!-- Fim Template do App--> 
     </div>
   </main>

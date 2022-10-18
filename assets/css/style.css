@@ -8,9 +8,10 @@ body{
   width: 100vw;
   background-color: rgb(42, 165, 184);
 }
-.conteudo{
-  border-radius: 20px;
-}
 i{
   color: rgb(45, 91, 255);
+}
+input:checked  #div-tarefa p{
+  color: red;
+  text-decoration: dashed;
 }

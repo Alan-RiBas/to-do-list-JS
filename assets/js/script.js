@@ -1,117 +1,109 @@
-/*seleção dos elementos*/
-const todoForm = document.querySelector('#todo-form');
-const todoInput = document.querySelector('#todo-input');
-const todoList = document.querySelector('#todo-list');
+//seleção dos elementos
+const listaTarefas = document.querySelector('#lista-tarefas');
+
+const addTarefa = document.querySelector('#add_tarefa');
 
 
-/*Funções*/
-
-// const saveLocalStorage = ()=>{
-  
-// }
-const saveTodo =(text, save = 1, done= 0)=>{
-
-  
-  //cria uma div para cada tarefa
-  const tasks = document.createElement('div');
-  tasks.classList.add('d-flex');
-  tasks.classList.add('justify-content-between');
-  tasks.classList.add('mb-2');
-  tasks.classList.add('task');
-
-  const task = document.createElement('div');
-  task.classList.add('border');
-  task.classList.add('w-100');
-  task.classList.add('p-1');
-  
-  //área descrição da tarefa
-  const todoTittle = document.createElement('p');
-  todoTittle.innerHTML = text;
-  
-  //cria a area dos botoes add,edit,remove
-  const buttons = document.createElement('div');
-  buttons.classList.add('d-flex');
-  buttons.classList.add('justify-content-between');
-  
-  //botão add
-  const btn_check = document.createElement('a');
-  btn_check.classList.add('btn');
-  btn_check.classList.add('btn-outline-primary');
-  btn_check.setAttribute('type', 'button');
-  
-
-  //criando icone
-  const i_add = document.createElement('i');
-  i_add.classList.add('fas');
-  i_add.classList.add('fa-regular');
-  i_add.classList.add('fa-check');
-  
-  //botão edit
-  const btn_edit = document.createElement('a');
-  btn_edit.classList.add('btn');
-  btn_edit.classList.add('btn-outline-primary');
-  btn_edit.setAttribute('type', 'button');
-  //criando icone
-  const i_edit = document.createElement('i');
-  i_edit.classList.add('fas');
-  i_edit.classList.add('fa-regular');
-  i_edit.classList.add('fa-pen');
-  i_edit.classList.add('icon');
-  
-  //botão remove
-  const btn_remove = document.createElement('a');
-  btn_remove.classList.add('btn');
-  btn_remove.classList.add('btn-outline-primary');
-  btn_remove.setAttribute('type', 'button');
-
-  const i_remove = document.createElement('i');
-  i_remove.classList.add('fas');
-  i_remove.classList.add('fa-light');
-  i_remove.classList.add('fa-trash');
-  
-  
-  
 
 
-  //adicionando itens filhos
-  todoList.appendChild(tasks);
-  tasks.appendChild(task);
-  tasks.appendChild(buttons);
-  task.appendChild(todoTittle);
-  buttons.appendChild(btn_check);
-  btn_check.appendChild(i_add);
-  buttons.appendChild(btn_edit);
-  btn_edit.appendChild(i_edit);
-  buttons.appendChild(btn_remove);
-  btn_remove.appendChild(i_remove); 
-  
-  // Utilizando dados da localStorage
-  if (done) {
-    todo.classList.add("done");
+
+//Funções -------------
+
+//pegando valores do Local Storage
+const getBanco = ()=> JSON.parse(localStorage.getItem('listaTarefas'))  ?? [];
+//setando valores no local Storage
+const setBanco = (banco)=>localStorage.setItem('listaTarefas', JSON.stringify(banco));
+
+//Limpar tarefa
+//evita inserir duplica da lista quando chamamos a função atualizarTela()
+const limparTarefas = ()=>{
+  while(listaTarefas.firstChild){
+    listaTarefas.removeChild(listaTarefas.lastChild);
   }
-  
-  if (save) {
-    saveTodoLocalStorage({ text, done: 0 });
-  }
-  
-  todoInput.value = "";
+}
 
+//Atualizar tarefas
+const atualizarTela = ()=>{
+  limparTarefas();
+  const banco = getBanco();
+  //para cada item no banco de dados é chamada a funcação para criar a tarefa
+  banco.forEach((item, indice)=> criarTarefa(item.tarefa, item.status, indice))
+}
+
+//Inserir item na lista
+const inserirItem = (texto)=>{
+  const banco = getBanco();
+  //adiciona chave/valor da tarefa e status
+
+  banco.push({'tarefa': texto, 'status': ''});
+
+  //coloca a chave e valor no banco
+  setBanco(banco);
+  //atualiza a tela
+  atualizarTela();
+}
+//remover item
+const removerItem = (indice)=>{
+  //pega o banco
+  const banco = getBanco();
+  //tira o item do array de acordo com o indice
+  banco.splice(indice, 1);
+  setBanco(banco);
+  //atualiza a tela
+  atualizarTela();
+}
+
+const atualizarItem = (indice)=>{
+  const banco = getBanco();
+  banco[indice].status = banco[indice].status === '' ? 'checked' : '';
+  setBanco(banco);
+  atualizarTela();
+}
+
+// criação da tarefa
+const criarTarefa = (tarefa, status, indice)=>{
+  //criar div para adicionar task
+  const div = document.createElement('div');
+  div.setAttribute('class', "d-flex justify-content-between mb-2");
+  div.innerHTML = `
+  <div id="div-tarefa" class="border w-100 p-1 d-flex justify-content-between align-items-center">
+    <p>${tarefa}</p>
+    <div class="w-25 d-flex flex-row justify-content-around align-items-center">
+      <input type="checkbox" data-indice=${indice} ${status} />      
+      <button type="button" data-indice=${indice} class=" btn btn-outline-primary"><i class="fas fa-light fa-trash"></i></button>
+    </div>
+  </div>
+  ` ;
+
+  listaTarefas.appendChild(div);
 }
 
 
-/*Eventos*/
+//eventos ------------------
 
+addTarefa.addEventListener('click', (e)=>{
+  const tarefa = document.querySelector('#input-tarefa');
 
-
-todoForm.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  
-  const inputValue = todoInput.value;
-  
-  if(inputValue){
-    saveTodo(inputValue);
+  const error = 'A tarefa inserida invalida!';
+  if(!tarefa.value == '' && tarefa.value == isNaN(tarefa.value)){
+    return alert(error);
+  }else{
+    inserirItem(tarefa);
   }
-}); 
+  tarefa = '';
 
+});
+document.addEventListener('click',(e)=>{
+  const elemento = e.target;
 
+  if(elemento.type === 'button'){
+    const indice = elemento.dataset.indice;
+    removerItem(indice);
+  }else if(elemento.type == 'checkbox'){
+    const indice = elemento.dataset.indice;
+    atualizarItem(indice);
+  }
+});
 
+//atualiza a tela
+atualizarTela();
