@@ -11,7 +11,9 @@ body{
 i{
   color: rgb(45, 91, 255);
 }
-input:checked  #div-tarefa p{
-  color: red;
-  text-decoration: dashed;
+.task{
+  background-color: rgb(114, 114, 114);
+  border-radius: .5rem;
+  color: white;
+  font-weight: 400;
 }

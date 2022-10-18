@@ -66,7 +66,7 @@ const criarTarefa = (tarefa, status, indice)=>{
   const div = document.createElement('div');
   div.setAttribute('class', "d-flex justify-content-between mb-2");
   div.innerHTML = `
-  <div id="div-tarefa" class="border w-100 p-1 d-flex justify-content-between align-items-center">
+  <div id="div-tarefa" class="task border w-100 p-1 d-flex justify-content-between align-items-center">
     <p>${tarefa}</p>
     <div class="w-25 d-flex flex-row justify-content-around align-items-center">
       <input type="checkbox" data-indice=${indice} ${status} />      
@@ -82,10 +82,10 @@ const criarTarefa = (tarefa, status, indice)=>{
 //eventos ------------------
 
 addTarefa.addEventListener('click', (e)=>{
-  const tarefa = document.querySelector('#input-tarefa');
-
+  const tarefa = document.querySelector('#input-tarefa').value;
   const error = 'A tarefa inserida invalida!';
-  if(!tarefa.value == '' && tarefa.value == isNaN(tarefa.value)){
+
+  if(!tarefa == '' && tarefa == Number(tarefa)){
     return alert(error);
   }else{
     inserirItem(tarefa);
