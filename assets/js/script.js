@@ -115,5 +115,5 @@ document.addEventListener('click',(e)=>{
   }
 });
 
-//atualiza a tela
 atualizarTela();
+document.body.onload = atualizarTela();
