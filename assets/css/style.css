@@ -12,8 +12,13 @@ i{
   color: rgb(45, 91, 255);
 }
 .task{
-  background-color: rgb(114, 114, 114);
+  background-color: rgba(157, 157, 157, 0.8);
   border-radius: .5rem;
   color: white;
   font-weight: 400;
+}
+.checked{
+  text-decoration: line-through;
+  color: red;
+  background-color: rgba(80, 197, 80, 0.809);
 }

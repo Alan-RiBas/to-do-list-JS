@@ -2,7 +2,7 @@
 const listaTarefas = document.querySelector('#lista-tarefas');
 
 const addTarefa = document.querySelector('#add_tarefa');
-
+const buttonCheck = document.querySelector('#checkbox');
 
 
 
@@ -28,6 +28,7 @@ const atualizarTela = ()=>{
   const banco = getBanco();
   //para cada item no banco de dados é chamada a funcação para criar a tarefa
   banco.forEach((item, indice)=> criarTarefa(item.tarefa, item.status, indice))
+
 }
 
 //Inserir item na lista
@@ -57,19 +58,28 @@ const atualizarItem = (indice)=>{
   const banco = getBanco();
   banco[indice].status = banco[indice].status === '' ? 'checked' : '';
   setBanco(banco);
+
+  const divTarefa = document.querySelector('#div-tarefa');
+  if(divTarefa.getAttribute('data-task') == indice){
+    divTarefa.classList.add('checkedElement');
+  }else{
+    divTarefa.classList.remove('checkedElement');
+  }
+
+
   atualizarTela();
 }
 
 // criação da tarefa
-const criarTarefa = (tarefa, status, indice)=>{
+const criarTarefa = (tarefa, status, indice )=>{
   //criar div para adicionar task
   const div = document.createElement('div');
   div.setAttribute('class', "d-flex justify-content-between mb-2");
   div.innerHTML = `
-  <div id="div-tarefa" class="task border w-100 p-1 d-flex justify-content-between align-items-center">
+  <div id="div-tarefa" data-task=${indice} class=" task ${status} border w-100 p-1 d-flex justify-content-between align-items-center">
     <p>${tarefa}</p>
     <div class="w-25 d-flex flex-row justify-content-around align-items-center">
-      <input type="checkbox" data-indice=${indice} ${status} />      
+      <button id="checkbox" class="btn btn-outline-primary" data-indice=${indice} ${status}><i class="fas fa-regular fa-check"></i></button>      
       <button type="button" data-indice=${indice} class=" btn btn-outline-primary"><i class="fas fa-light fa-trash"></i></button>
     </div>
   </div>
@@ -99,9 +109,9 @@ document.addEventListener('click',(e)=>{
   if(elemento.type === 'button'){
     const indice = elemento.dataset.indice;
     removerItem(indice);
-  }else if(elemento.type == 'checkbox'){
+  }else if(elemento.id == 'checkbox'){
     const indice = elemento.dataset.indice;
-    atualizarItem(indice);
+    atualizarItem(indice);   
   }
 });
 
